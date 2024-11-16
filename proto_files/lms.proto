@@ -1,0 +1,172 @@
+syntax = "proto3";
+
+package lms;
+
+service LMS {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  rpc PostAssignment(PostAssignmentRequest) returns (PostAssignmentResponse);
+  rpc GetAssignments(GetAssignmentsRequest) returns (GetAssignmentsResponse);
+  rpc SubmitAssignment(SubmitAssignmentRequest) returns (SubmitAssignmentResponse);
+  rpc ViewGrades(ViewGradesRequest) returns (ViewGradesResponse);
+  rpc PostQuery(PostQueryRequest) returns (PostQueryResponse);
+  rpc ViewAllQueries(ViewAllQueriesRequest) returns (ViewAllQueriesResponse);
+  rpc GradeAssignment(GradeAssignmentRequest) returns (GradeAssignmentResponse);
+  rpc appendEntries(AppendEntriesRequest) returns (AppendEntriesResponse);
+  rpc GetLLMAnswer(GetLLMAnswerRequest) returns (GetLLMAnswerResponse);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+  rpc requestVote(RequestVoteRequest) returns (RequestVoteResponse);
+}
+
+// Messages for registration, login, and logout
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+  string userType = 3; // "Instructor" or "Student"
+}
+
+message HeartbeatRequest {}
+
+message HeartbeatResponse {
+    bool success = 1;
+}
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string token = 2;
+  string userType = 3;
+}
+message GetLLMAnswerRequest {
+  string query = 1; // The question the student asks
+}
+
+message GetLLMAnswerResponse {
+  bool success = 1;
+  string answer = 2; // The answer from the LLM
+}
+
+message LogoutRequest {
+  string token = 1;
+}
+
+message LogoutResponse {
+  bool success = 1;
+}
+
+// Assignment functionalities
+message PostAssignmentRequest {
+  string token = 1;
+  string assignmentContent = 2;
+}
+
+message PostAssignmentResponse {
+  bool success = 1;
+}
+
+message GetAssignmentsRequest {
+  string token = 1;
+}
+
+message GetAssignmentsResponse {
+  bool success = 1;
+  repeated string assignments = 2;
+}
+
+// Student-specific functionality
+message SubmitAssignmentRequest {
+  string token = 1;
+  string submissionContent = 2;
+}
+
+message SubmitAssignmentResponse {
+  bool success = 1;
+}
+
+message ViewGradesRequest {
+  string token = 1;
+}
+
+message ViewGradesResponse {
+  bool success = 1;
+  repeated GradeInfo grades = 2; 
+  string errorMessage = 3;
+
+}
+
+message GradeInfo {
+  string studentUsername = 1;    // The username of the student
+  string grade = 2;               // The grade received
+}
+// Query functionality
+message PostQueryRequest {
+  string token = 1;
+  string queryContent = 2;
+}
+
+message PostQueryResponse {
+  bool success = 1;
+  string message = 2;   
+
+}
+
+message ViewAllQueriesRequest {
+  string token = 1;
+}
+
+message ViewAllQueriesResponse {
+  bool success = 1;
+  repeated string queries = 2;
+}
+
+// Grading functionality for instructors
+message GradeAssignmentRequest {
+  string token = 1;
+  string studentUsername = 2;
+  string grade = 3;
+}
+
+message GradeAssignmentResponse {
+  bool success = 1;
+  string errorMessage = 2;
+}
+// Raft consensus protocol messages
+message RequestVoteRequest {
+  string candidateId = 1;
+  int32 term = 2;
+  int32 lastLogIndex = 3;
+  int32 lastLogTerm = 4;
+}
+
+message RequestVoteResponse {
+  int32 term = 1;
+  bool voteGranted = 2;
+}
+
+message AppendEntriesRequest {
+  int32 term = 1;
+  string leaderId = 2;
+  int32 prevLogIndex = 3;
+  int32 prevLogTerm = 4;
+  repeated LogEntry entries = 5;
+  int32 leaderCommit = 6;
+}
+
+message AppendEntriesResponse {
+  int32 term = 1;
+  bool success = 2;
+}
+
+message LogEntry {
+  int32 term = 1;
+  string command = 2;
+}

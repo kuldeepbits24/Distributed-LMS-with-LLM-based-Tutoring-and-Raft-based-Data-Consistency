@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package tutoring;
+
+service Tutoring {
+  rpc GetLLMAnswer(GetLLMAnswerRequest) returns (GetLLMAnswerResponse);
+  rpc PostQuery(PostQueryRequest) returns (PostQueryResponse);
+}
+
+message GetLLMAnswerRequest {
+  string query = 1;
+}
+
+message GetLLMAnswerResponse {
+  bool success = 1;
+  string answer = 2;
+}
+
+message PostQueryRequest {
+  string token = 1;        // The session token of the student
+  string queryContent = 2; // The content of the query
+}
+
+message PostQueryResponse {
+  bool success = 1;        // Indicates if the operation was successful
+  string message = 2;      // Optional message
+}
