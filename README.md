@@ -31,16 +31,18 @@ The project includes the following key components:
 
 ### Prerequisites
 
-- Python 3.8+
+- Use An Environment (may be conda) 
+- Python 3.9+ 
 - grpcio
 - grpcio-tools
 - transformers
 - torch
 - `grpcio` and `grpcio-tools`
 - `transformers` library
-- Other Python dependencies: Install using `requirements.txt`
-- pip install -r requirements.txt
+- Other Python dependencies: Install using `requirements.txt` or one-by-one. 
+- pip install -r requirements.txt 
 - to install LLM COHERE:  python -m pip install cohere --upgrade
+- NO NEED TO CREATE PROTO FILE AGAIN IF THERE IS NO CHANGE IN THE CODE EXCEPT IP ADDRESS. 
 
 ### Installation
 
@@ -50,7 +52,7 @@ The project includes the following key components:
    ```
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt (if the command is not working, then install separately) 
    ```
 
 ### Running the Application
@@ -58,19 +60,19 @@ The project includes the following key components:
 #### 1. Start the Servers
 - **Leader Node_2:
   ```bash
-  python lms_server_leader.py
+  python lms_server_leader.py (python3 also works)
   ```
 - **Follower Nodes_3:
   ```bash
-  python lms_server_follower.py
+  python lms_server_follower.py (python3 also works)
   ```
 - **Follower Nodes_4:
   ```bash
-  python lms_server_follower.py
+  python lms_server_follower.py  (python3 also works)
   ```
 - **Tutoring Server NODE_1:
   ```bash
-  python tutoring_server.py
+  python tutoring_server.py   (python3 also works)
   ```
 
 #### 2. Run the Client (You can run client on any node)
